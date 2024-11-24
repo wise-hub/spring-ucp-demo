@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.4.0</version>
+		<relativePath/>
+	</parent>
+
+	<groupId>bg.fibank</groupId>
+	<artifactId>spring-ucp-demo</artifactId>
+	<version>1.0.0</version>
+	<packaging>war</packaging>
+	<name>spring-ucp-demo</name>
+	<description>Demo with Oracle UCP and Spring Boot</description>
+
+	<properties>
+		<java.version>17</java.version>
+		<tomcat.scope>compile</tomcat.scope>
+		<dbcon.scope>compile</dbcon.scope>
+		<dbcon.version>1.0.0</dbcon.version>
+		<oracle.ucp.version>19.16.0.0</oracle.ucp.version>
+		<oracle.jdbc.version>19.16.0.0</oracle.jdbc.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>bg.fibank</groupId>
+			<artifactId>dbcon-udt-mapper</artifactId>
+			<version>${dbcon.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>${tomcat.scope}</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ucp</artifactId>
+			<version>${oracle.ucp.version}</version>
+			<scope>${dbcon.scope}</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc8</artifactId>
+			<version>${oracle.jdbc.version}</version>
+			<scope>${dbcon.scope}</scope>
+		</dependency>
+
+
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.4.0</version>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>local</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<tomcat.scope>compile</tomcat.scope>
+				<dbcon.scope>compile</dbcon.scope>
+
+			</properties>
+		</profile>
+
+		<profile>
+			<id>production</id>
+			<properties>
+				<tomcat.scope>provided</tomcat.scope>
+				<dbcon.scope>provided</dbcon.scope>
+
+			</properties>
+		</profile>
+	</profiles>
+
+</project>

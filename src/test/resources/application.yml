@@ -1,0 +1,42 @@
+server:
+  port: 8081
+  tomcat:
+    threads:
+      max: 20
+    accept-count: 10
+
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@${CMS_DB_HOST}:1521/${CMS_DB_SN}
+    username: ${CMS_DB_USER}
+    password: ${CMS_DB_PASS}
+  ucp:
+    initial-pool-size: 10
+    min-pool-size: 20
+    max-pool-size: 30
+    connection-wait-timeout: 30
+    timeout-check-interval: 5
+    inactive-connection-timeout: 120
+    abandoned-connection-timeout: 180
+    validate-connection-on-borrow: true
+    max-connection-lifetime: 1800
+    max-connection-reuse-count: 5000
+
+logging:
+  level:
+    root: INFO
+    oracle.ucp: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: metrics, health
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
